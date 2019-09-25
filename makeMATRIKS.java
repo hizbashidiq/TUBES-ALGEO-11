@@ -1,18 +1,141 @@
 //package percobaan.pkg1;
 import java.util.Scanner;
 
-public class makeMATRIKS {
-    protected double[][] matriks;
-    protected int baris;
-    protected int kolom;
-    Scanner input = new Scanner(System.in);
-    
-    /* KONSTRUKTOR */
-    public void makeMATRIKS(int i, int j){
-        matriks = new double[i][j];
-        baris = i;
-        kolom = j;
-    }
+class matriks
+{
+	Scanner input = new Scanner(System.in);
+	double [][] elmt;
+	int kolom;
+	int baris;
+	matriks(int brs,int kol)
+	{
+		this.baris=brs;
+		this.kolom=kol;
+		elmt= new double [brs][kol];
+	}
+	void isimatriks(matriks M, int baris, int kolom)
+	{
+		int i,j;
+		M.baris = baris;
+		M.kolom = kolom;
+		for (i=0;i<M.baris;i++)
+		{
+			for (j=0;j<M.kolom;j++)
+			{
+				M.elmt[i][j]= input.nextDouble();
+			}
+		}
+	}
+	void tulismatriks(matriks M)
+	{
+		int i,j;
+		for (i=0;i<M.baris;i++)
+		{
+			for (j=0;j<M.kolom;j++)
+			{
+				System.out.print(M.elmt[i][j]+ " ");
+			}
+			System.out.println();
+		}
+	}		
+	//matriks cramer (int n)
+	matriks transpose (matriks M)
+	{
+		int j,i;
+		matriks MT = new matriks (3,3);
+		for (i=0;i<3;i++)
+		{
+			for (j=0;j<3;j++)
+			{
+				MT.elmt[i][j]=M.elmt[j][i];
+			}
+		}
+		return MT;
+	}
+	
+	public matriks MatriksMinor(matriks M, int bar, int kol)
+	{
+		matriks res = new matriks(M.baris-1, M.kolom-1);
+		int idxBar = 0;
+		for (int i =  0; i < M.baris; i++)
+		{
+			int idxKol = 0;
+			for (int j =  0; j < M.kolom; j++)
+			{
+				if ((i != bar) && (j != kol)){
+					res.elmt[idxBar][idxKol] = M.elmt[i][j];
+					idxKol++;
+				}
+			}
+			if (idxKol == M.kolom-1)
+				idxBar++;
+		}
+		return res;
+	}
+
+	public matriks MatriksKofaktor(matriks M){
+		matriks res = new matriks(M.baris, M.kolom);
+		for (int i = 0; i <= M.baris; i++)
+		{
+			for (int j = 0; j <= M.kolom; j++)
+			{
+				res.elmt[i][j] = Determinan(M.MatriksMinor(M,i,j));
+			}
+		}
+		return res;
+	}
+
+	public matriks MatriksAdjoin(matriks M){
+		M = transpose(MatriksKofaktor(M));
+		return M;
+	}
+	
+	public double Determinan(matriks M){
+		double det = 0;
+		int i = 0, j=0;
+		if ((M.baris == 1) && (M.kolom == 1))
+		{
+			return M.elmt[i][j];
+		}
+		else if ((M.baris == 2) && (M.kolom ==2))
+		{
+			return (M.elmt[0][0]*M.elmt[1][1]-M.elmt[1][0]*M.elmt[0][1]);
+		}
+		else
+		{
+			for (j = 0 ; j < M.kolom ; j++){
+				det = det + (Math.pow((-1),(j))*Determinan(MatriksMinor(M,i,j)));
+				i++;
+			}
+			return det;
+		}
+	}
+		void Menu()
+	{
+		System.out.println("MENU");
+		System.out.println("1. Sistem Persamaan Linier");
+		System.out.println("2. Determinan");
+		System.out.println("3. Matriks Balikan");
+		System.out.println("4. Matriks Kofaktor");
+		System.out.println("5. Matriks Adjoin");
+		System.out.println("6. Interpolasi Polinom");
+		System.out.println("7. Keluar");
+		System.out.print("Pilih menu yang Anda inginkan: ");
+	}
+	void Submenu()
+	{
+		System.out.println("1. Metode Eliminasi Gauss");
+		System.out.println("2. Metode Eliminasi Gauss-Jordan");
+		System.out.println("3. Metode Matriks Balikan");
+		System.out.println("4. Kaidah Cramer");
+		System.out.print("Pilih sub-menu yang Anda inginkan: ");
+	}
+	double InterpolasiPolinom(matriks M, int i)
+	{
+		return i;
+	}
+	
+}
     
     /* SELEKTOR */
     public int getBrs(){
