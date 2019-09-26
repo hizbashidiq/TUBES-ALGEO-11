@@ -1,14 +1,14 @@
 //package percobaan.pkg1;
 import java.util.Scanner;
 
-public class makeMATRIKS {
+public class MATRIKS {
     protected double[][] matriks;
     protected int baris;
     protected int kolom;
     Scanner input = new Scanner(System.in);
     
     /* KONSTRUKTOR */
-    public void makeMATRIKS(int i, int j){
+    public void MATRIKS(int i, int j){
         matriks = new double[i][j];
         baris = i;
         kolom = j;
@@ -33,30 +33,36 @@ public class makeMATRIKS {
     
     
     /* KELOMPOK BACA/TULIS MATRIKS */
-    public void bacaMatriks(int NB, int NK){
-        makeMATRIKS(NB,NK);
-        for(NB=0; NB<baris; NB++){
-            for(NK=0; NK<kolom; NK++){
+    public void bacaMatriks(){
+		System.out.print("Masukan jumlah baris matriks: ");
+		this.baris = input.nextInt();
+		System.out.print("Masukan jumlah kolom matriks: ");
+		this.kolom = input.nextInt();
+		this.matriks = new double[this.baris][this.kolom];
+        for(int NB = 0; NB < baris; NB++){
+            for(int NK = 0; NK < kolom; NK++){
                 this.matriks[NB][NK] = input.nextDouble();
                 
             }
         }
     }
     
-    public void tulisMatriks(int NB, int NK){
-        for(NB=0; NB<baris; NB++){
-            for(NK=0; NK<kolom; NK++){
-                if(this.matriks[NB][NK]==(-0.0)){
+    public void tulisMatriks(){
+		int NB = this.getBrs();
+		int NK = this.getKol();
+        for(NB = 0; NB < baris; NB++){
+            for(NK = 0; NK < kolom; NK++){
+                if(this.matriks[NB][NK] == (-0.0)){
                     this.matriks[NB][NK] = 0.0;
                 }
-                System.out.print(this.matriks[NB][NK]);
-                System.out.print(" ");
+				System.out.print(this.matriks[NB][NK]);
+				System.out.print(" ");
             }
            // System.out.println(this.matriks[NB][NK]);
             //if(NB!=baris){
             System.out.println();
-             }
-        }
+		}
+	}
     
     /* KELOMPOK PENGUJIAN BARIS */
     public boolean isBrsZero(int i){
@@ -201,7 +207,6 @@ public class makeMATRIKS {
         }
         
     }
-        
     public void gaussJordan(){
         /* KAMUS */
         int i,j;
@@ -219,4 +224,93 @@ public class makeMATRIKS {
             }
         }
     }    
+    
+    ///////////////////////////////////////////////
+    
+	public boolean isSimetris(MATRIKS m){
+		boolean Simetris = true;
+		if(isSquare(m)){
+			for (int i = 0; i < baris; i++){
+				for (int j = 0; j < kolom; j++){
+					if (this.matriks[i][j] != this.matriks[j][i]){
+						Simetris = false;
+					}
+				}
+			}
+		} else {
+			Simetris = false;
+		}
+		return Simetris;
+	}
+
+	public boolean isSquare(MATRIKS m){
+		return(kolom == baris);
+	}
+
+	public MATRIKS matriksMinor(MATRIKS m, int b, int k){
+		MATRIKS res = new MATRIKS();
+ 		res.MATRIKS(this.baris-1,this.kolom-1);
+		int idxBar = 0;
+		if (isSquare(m)){
+			for (int i = 0; i < baris; i++){
+				int idxKol = 0;
+				for (int j =  0; j < kolom; j++){
+					if ((i != b) && (j != k)){
+						res.matriks[idxBar][idxKol] = this.matriks[i][j];
+						++idxKol;
+					}
+				}
+				if (idxKol == this.kolom-1){
+				++idxBar;
+				}
+			}
+		} else {
+			System.out.println("Ukuran Matriks tidak sesuai");
+			res = m;
+		}
+		return res;
+	}
+	
+	public MATRIKS matriksKofaktor(MATRIKS m){	
+		MATRIKS minor = new MATRIKS();
+		MATRIKS kofaktor = new MATRIKS();
+		kofaktor.MATRIKS(this.baris, this.kolom);
+		double determinan;
+		if (isSquare(m)){
+			for (int i = 0; i < baris; i++){
+				for (int j =  0; j < kolom; j++){								
+					minor = m.matriksMinor(m,i,j);
+					determinan = minor.determinan2(minor);
+					kofaktor.matriks[i][j] = determinan;
+				}
+			}
+		} else {
+			System.out.println("Ukuran Matriks tidak sesuai");
+			kofaktor = m;
+		}
+		return kofaktor;
+	}
+	
+	public double determinan2(MATRIKS m){
+		return ((m.matriks[0][0]*m.matriks[1][1]) - (m.matriks[1][0]*m.matriks[0][1]));
+	}
+	
+	public double determinan(MATRIKS m){
+		double det = 0;
+		MATRIKS minor = new MATRIKS();
+		if(isSquare(m)){
+			if ((baris == 1) && (kolom == 1)){
+				return m.matriks[0][0];
+			}
+			else {
+				for (int i = 0; i < baris; i++){
+					minor = m.matriksMinor(m,i,0);
+					det += (Math.pow(-1, i))*(m.matriks[i][0])*(minor.determinan(minor));									
+				}
+			}
+		} else {
+			System.out.println("Ukuran Matriks tidak sesuai");
+		}
+		return det;
+	}
 }
