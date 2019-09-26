@@ -592,4 +592,16 @@ public class MATRIKS {
 		return m;
 	}
 
+	public MATRIKS SPLGaussJordan(MATRIKS Koef, MATRIKS Hasil){
+		MATRIKS temp = new MATRIKS();
+		temp.MATRIKS(Koef.baris, (Koef.kolom)+1);
+		temp = temp.concatMatriks(Koef,Hasil);
+		
+		temp.gaussJordan();
+		
+		MATRIKS res = new MATRIKS();
+		res.MATRIKS((Hasil.baris),1);
+		res = temp.cropMatriks((Koef.kolom),(Koef.kolom));
+		return res;
+	}
 }
