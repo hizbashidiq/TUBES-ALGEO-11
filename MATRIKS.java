@@ -604,4 +604,47 @@ public class MATRIKS {
 		res = temp.cropMatriks((Koef.kolom),(Koef.kolom));
 		return res;
 	}
+	MATRIKS kaliMATRIKS(MATRIKS M1,MATRIKS M2)
+	{
+		int i,j,k;
+		MATRIKS MH = new MATRIKS();
+		MH.MATRIKS(M1.baris,M2.kolom);
+		for (i=0;i<M1.baris;i++)
+		{
+			for (j=0;j<M2.kolom;j++)
+			{
+				for (k=0;k<M1.kolom;k++)
+				{
+					MH.matriks[i][j]+=(M1.matriks[i][k]*M2.matriks[k][j]);
+				}
+			}
+		}
+		return MH;
+	}
+	void SPLInvers()
+	{
+		int i,j;
+		MATRIKS A = new MATRIKS();
+		MATRIKS B = new MATRIKS();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Masukkan matriks koefisien: ");
+		A.bacaMatriks();
+		B.MATRIKS(A.baris,1);
+		double[] hasil = new double[A.baris];
+		for (i=0;i<A.baris;i++)
+		{
+			{
+				B.matriks[i][0]=input.nextDouble();
+			}
+		}
+		A.tulisMatriks();
+		B.tulisMatriks();
+		MATRIKS MI = A.InverseAdDet(A);
+		MATRIKS MH = MI.kaliMATRIKS(MI,B);
+		for (i=0;i<A.baris;i++)
+		{
+			hasil[i]=MH.matriks[i][0];
+			System.out.println("hasil["+(i+1)+"]: "+hasil[i]);
+		}
+	}
 }
