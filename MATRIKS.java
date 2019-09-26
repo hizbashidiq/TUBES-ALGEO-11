@@ -471,4 +471,38 @@ public class MATRIKS {
 			}
 		}
 	}
+	
+	public MATRIKS matriksSegitigaBawah(MATRIKS m){
+		double kali;
+		MATRIKS temp = new MATRIKS();
+		temp.MATRIKS(m.baris, m.kolom);
+		
+		for (int i = 0; i < temp.baris; i++){
+			for (int j = 0; j < temp.kolom; j++){ 
+				temp.matriks[i][j] = m.matriks[i][j];
+			}
+		}
+		
+		for (int k = 0; k < temp.baris; k++){
+			for (int l = 0; l < temp.kolom; l++){
+				kali = temp.matriks[k][k];
+				m.matriks[k][l] *= kali;
+			}
+		}
+		
+		return m;
+	}
+	
+	public double determinanGauss(MATRIKS m){
+		double det = 1;
+		if (isSquare(m)){
+			m = m.matriksSegitigaBawah(m);
+			for (int i = 0; i < m.baris; i++){
+				det *= m.matriks[i][i];
+			}
+		} else
+			System.out.println("Ukuran Matriks tidak sesuai");
+		return det;
+	}
+	
 }
