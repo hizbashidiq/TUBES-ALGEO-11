@@ -495,6 +495,7 @@ public class MATRIKS {
 	
 	public double determinanGauss(MATRIKS m){
 		double det = 1;
+		gaussOp();
 		if (isSquare(m)){
 			m = m.matriksSegitigaBawah(m);
 			for (int i = 0; i < m.baris; i++){
