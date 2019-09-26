@@ -524,4 +524,72 @@ public class MATRIKS {
 			return MAdj;
 		}
 	}
+	
+		
+	public void makeIdentitas(int n){
+		for (int i = 0; i < n ; i++){
+			for (int j = 0; j < n ; j++){
+				if (i == j)
+					this.matriks[i][j] = 1;
+				else
+					this.matriks[i][j] = 0;
+			}
+		}
+	}
+	
+	public MATRIKS concatMatriks(MATRIKS M1, MATRIKS M2){
+		MATRIKS res = new MATRIKS();
+		res.MATRIKS(M1.baris , M1.kolom + M2.kolom);
+		if (M1.baris == M2.baris){
+			for (int i = 0; i < M1.baris; i++){
+				for (int j = 0; j < M1.kolom; j++){
+					res.matriks[i][j] = M1.matriks[i][j];
+				}
+			}
+			
+			for (int i = 0; i < M1.baris; i++){
+				for (int j = M1.kolom; j < M1.kolom + M2.kolom; j++){
+					res.matriks[i][j] = M2.matriks[i][j-M1.kolom];
+				}
+			}
+			return res;
+		} else {
+			System.out.println("Gagal, Baris kedua matriks tidak sama!");
+			return this;
+		}
+	}
+	
+	public MATRIKS cropMatriks(int first, int last){
+		if ((first >= 0 && first < this.kolom) && (last >= 0 && last < this.kolom) && (first <= last)){
+			MATRIKS crop = new MATRIKS();
+			crop.MATRIKS(this.baris ,last-first+1);
+			for (int i = 0; i < this.baris; i++){
+				int Kolom = 0;
+				for (int j = first; j <= last; j++){
+					crop.matriks[i][Kolom] = this.matriks[i][j];
+					Kolom++;
+				}
+			}
+			return crop;
+		} else {
+			System.out.println("Gagal, indeks tidak valid!");
+			return this;
+		}
+	}
+
+	public MATRIKS matriksInversGaussJordan(MATRIKS m){
+		MATRIKS i = new MATRIKS();
+		i.MATRIKS(m.baris, m.baris);
+		i.makeIdentitas(m.baris);
+		
+		MATRIKS temp = new MATRIKS();
+		temp.MATRIKS(m.baris, (m.kolom)+(i.kolom));
+		temp = temp.concatMatriks(m,i);
+		
+		temp.gaussJordan();
+		
+		m = temp.cropMatriks((m.kolom), (m.kolom) + (i.kolom)-1);
+		return m;
+	}
+
 }
