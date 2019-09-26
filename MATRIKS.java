@@ -448,4 +448,27 @@ public class MATRIKS {
 			System.out.println("a["+(i+1)+"]="+det[i]/M.determinan(M));
 		}
 	}
+	
+	public void saveFile(MATRIKS m, String namafile){
+		PrintWriter writer = null;
+		try
+		{
+			writer = new PrintWriter(namafile);
+			for (int i = 0; i<m.baris; i++){
+				for(int j = 0; j<m.kolom; j++){
+					writer.print(matriks[i][j] + " ");
+				} writer.println();
+			}
+		}
+		catch (FileNotFoundException e){
+			System.out.println("Error: " + e.getMessage());			
+		} finally {
+			try{
+				if (writer != null)
+					writer.close(); 
+			} catch (Exception e){
+				System.out.println("Could not close writer");
+			}
+		}
+	}
 }
