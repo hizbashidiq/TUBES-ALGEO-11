@@ -288,7 +288,7 @@ public class MATRIKS {
 			for (int i = 0; i < baris; i++){
 				for (int j =  0; j < kolom; j++){								
 					minor = m.matriksMinor(m,i,j);
-					determinan = Math.pow(-1,i)*minor.determinan(minor);
+					determinan = Math.pow(-1,i+j)*minor.determinan(minor);
 					kofaktor.matriks[i][j] = determinan;
 				}
 			}
