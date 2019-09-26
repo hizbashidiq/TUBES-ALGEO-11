@@ -1,6 +1,5 @@
 //package percobaan.pkg1;
 import java.util.Scanner;
-
 public class MATRIKS {
     protected double[][] matriks;
     protected int baris;
@@ -313,4 +312,50 @@ public class MATRIKS {
 		}
 		return det;
 	}
+		public MATRIKS transpose (MATRIKS m)
+	{
+		int j,i;
+		MATRIKS MT = new MATRIKS();
+		MT.MATRIKS(m.baris, m.kolom);
+		for (i=0;i<m.baris;i++)
+		{
+			for (j=0;j<m.kolom;j++)
+			{
+				MT.matriks[i][j]=m.matriks[j][i];
+			}
+		}
+		return MT;
+	}
+	public MATRIKS matriksAdjoin(MATRIKS m)
+	{
+		MATRIKS MT = new MATRIKS();
+		MT.MATRIKS(m.baris, m.kolom);
+		MT = m.transpose(m.matriksKofaktor(m));
+		return MT;
+	}
+		void Menu()
+	{
+		System.out.println("MENU");
+		System.out.println("1. Sistem Persamaan Linier");
+		System.out.println("2. Determinan");
+		System.out.println("3. Matriks Balikan");
+		System.out.println("4. Matriks Kofaktor");
+		System.out.println("5. Matriks Adjoin");
+		System.out.println("6. Interpolasi Polinom");
+		System.out.println("7. Keluar");
+		System.out.print("Pilih menu yang Anda inginkan: ");
+	}
+	void Submenu()
+	{
+		System.out.println("1. Metode Eliminasi Gauss");
+		System.out.println("2. Metode Eliminasi Gauss-Jordan");
+		System.out.println("3. Metode Matriks Balikan");
+		System.out.println("4. Kaidah Cramer");
+		System.out.print("Pilih sub-menu yang Anda inginkan: ");
+	}
+	double InterpolasiPolinom(MATRIKS M, int i)
+	{
+		return i;
+	}
+	
 }
