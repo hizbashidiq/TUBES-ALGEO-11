@@ -1,5 +1,6 @@
 //package percobaan.pkg1;
 import java.util.Scanner;
+import java.io.*;
 public class MATRIKS {
     protected double[][] matriks;
     protected int baris;
@@ -505,5 +506,22 @@ public class MATRIKS {
 			System.out.println("Ukuran Matriks tidak sesuai");
 		return det;
 	}
-	
+	public MATRIKS InverseAdDet(MATRIKS m)
+	{
+		int i;
+		if (m.determinan(m)==0)
+		{
+			System.out.println("Matriks Singular");
+			return m;
+		}
+		else
+		{
+			MATRIKS MAdj = m.matriksAdjoin(m);
+			for (i=0;i<m.baris;i++)
+			{
+				MAdj.kaliKoef(i,1/m.determinan(m));
+			}
+			return MAdj;
+		}
+	}
 }
