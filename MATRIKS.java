@@ -45,6 +45,15 @@ public class MATRIKS {
             }
         }
     }
+	public void bacaMatriks2(int i, int j){
+		this.matriks = new double[i][j];
+        for(int NB = 0; NB < i; NB++){
+            for(int NK = 0; NK < j; NK++){
+                this.matriks[NB][NK] = input.nextDouble();
+                
+            }
+        }
+    }
     
     public void tulisMatriks(){
 		int NB = this.getBrs();
@@ -393,5 +402,50 @@ public class MATRIKS {
         }
         return m;
     }
-	
+	public void	SPLCrammer()
+	{	
+		int i,j,n,a;
+		double DetUtama;
+		n = 0;
+		Scanner input = new Scanner(System.in);
+		MATRIKS M = new MATRIKS();
+		MATRIKS hasil = new MATRIKS();
+		System.out.println("Masukkan matriks koefisien: ");
+		M.bacaMatriks();
+		double [] det = new double[M.baris];
+		System.out.println("Masukkan matriks hasil: ");
+		hasil.bacaMatriks2(M.baris,1);
+		for (j=0;j<M.kolom;j++)
+		{
+			MATRIKS M3 = new MATRIKS();
+			M3.MATRIKS(M.baris,M.kolom);
+
+			for (n=0;n<M.baris;n++)
+			{
+				for (i=0;i<M.baris;i++)
+				{
+					for (j=0;j<M.kolom;j++)
+					{
+						M3.matriks[i][j]=M.matriks[i][j];
+					}
+				}
+				for (i=0;i<M.baris;i++)
+				{
+					for (j=0;j<M.kolom;j++)
+					{
+						if (j==n)
+						{
+							M3.matriks[i][j]=hasil.matriks[i][0];
+							det[i] = M3.determinan(M3);
+						}
+					}
+				}
+				M3.tulisMatriks();
+			}	
+		}
+		for (i=0;i<M.baris;i++)
+		{
+			System.out.println("a["+(i+1)+"]="+det[i]/M.determinan(M));
+		}
+	}
 }
